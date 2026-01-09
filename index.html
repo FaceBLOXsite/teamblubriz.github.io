@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>TB Message Sender</title>
-
   <style>
     body {
       background: linear-gradient(135deg, #0a2a43, #0f4c81);
@@ -15,7 +14,6 @@
       height: 100vh;
       margin: 0;
     }
-
     .container {
       background: #0b3c66;
       padding: 25px;
@@ -23,13 +21,11 @@
       width: 350px;
       box-shadow: 0 0 25px rgba(0, 140, 255, 0.4);
     }
-
     h1 {
       text-align: center;
       margin-bottom: 20px;
       color: #66bfff;
     }
-
     input, textarea {
       width: 100%;
       padding: 10px;
@@ -39,12 +35,10 @@
       font-size: 14px;
       outline: none;
     }
-
     textarea {
       resize: none;
       height: 100px;
     }
-
     button {
       width: 100%;
       padding: 12px;
@@ -55,11 +49,9 @@
       font-size: 16px;
       cursor: pointer;
     }
-
     button:hover {
       background: #0077e6;
     }
-
     .footer {
       text-align: center;
       margin-top: 10px;
@@ -69,22 +61,16 @@
   </style>
 </head>
 <body>
-
   <div class="container">
     <h1>TB Message Sender</h1>
-
     <input id="username" placeholder="Your name (optional)">
     <textarea id="message" placeholder="Type your message..."></textarea>
-
     <button onclick="sendMessage()">Send to Discord</button>
-
     <div class="footer">teamblubriz.com</div>
   </div>
 
   <script>
-    const WEBHOOK_URL =
-     "https://discord.com/api/webhooks/1459260101398626659/GX4nIIzvB5tnji3DRSWXVpXuxLUelTplrhEMzIyP6N_Yio7m2CiqRsULZxQH2NBpIM0i";
-
+    const WEBHOOK_URL = "https://discord.com/api/webhooks/1459260101398626659/GX4nIIzvB5tnji3DRSWXVpXuxLUelTplrhEMzIyP6N_Yio7m2CiqRsULZxQH2NBpIM0i";
     let cooldown = false;
 
     function sendMessage() {
@@ -93,19 +79,34 @@
         return;
       }
 
-      const usernameInput = document.getElementById("username").value;
-      const message = document.getElementById("message").value;
+      const usernameInput = document.getElementById("username").value.trim();
+      const message = document.getElementById("message").value.trim();
 
-      if (!message.trim()) {
+      if (!message) {
         alert("Message cannot be empty.");
         return;
       }
 
       fetch(WEBHOOK_URL, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           username: usernameInput || "TB Message Sender",
-          embeds: [{
+          embeds: [{ description: message, color: 3447003 }]
+        })
+      })
+      .then(response => {
+        if (response.ok) {
+          alert("Message sent!");
+          document.getElementById("message").value = "";
+          cooldown = true;
+          setTimeout(() => { cooldown = false; }, 5000); // 5 second cooldown
+        } else {
+          alert("Failed to send message. Check the webhook URL.");
+        }
+      })
+      .catch(() => alert("Failed to send message. Check your internet connection."));
+    }
+  </script>
+</body>
+</html>
