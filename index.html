@@ -83,7 +83,7 @@
 
   <script>
     const WEBHOOK_URL =
-      "https://discord.com/api/webhooks/1455526277506273464/Qy4g_nz3PQE9ka7eVxVRVWMp3xAApCQoymJEeKG3-y6-pIQdHo_1FnfRA5s92-k7uyiD";
+      "https://discord.com/api/webhooks/1459260101398626659/GX4nIIzvB5tnji3DRSWXVpXuxLUelTplrhEMzIyP6N_Yio7m2CiqRsULZxQH2NBpIM0i",
 
     let cooldown = false;
 
@@ -109,25 +109,3 @@
         body: JSON.stringify({
           username: usernameInput || "TB Message Sender",
           embeds: [{
-            title: "New Message",
-            description: message,
-            color: 3447003
-          }]
-        })
-      })
-      .then(response => {
-        if (response.ok) {
-          alert("Message sent!");
-          document.getElementById("message").value = "";
-          cooldown = true;
-          setTimeout(() => cooldown = false, 5000);
-        } else {
-          alert("Failed to send message.");
-        }
-      })
-      .catch(() => alert("Error connecting to Discord."));
-    }
-  </script>
-
-</body>
-</html>
